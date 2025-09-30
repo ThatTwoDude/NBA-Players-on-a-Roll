@@ -44,7 +44,7 @@ You can work in a Jupyter notebook (`pip install notebook` then `jupyter noteboo
 
 ## Step 2: Pull NBA Game Data
 
-The `nba_api` package connects directly to NBA Stats endpoints. Let’s fetch LeBron James’s game logs for the current season, just to see how the data is formatted.
+The `nba_api` package connects directly to NBA Stats endpoints. Let’s fetch LeBron James’s game logs for the current season, just to see how the data is formatted. Additionally we'll grab all active players.
 
 ```python
 from nba_api.stats.static import players
@@ -76,6 +76,8 @@ This gives us game-by-game stats like points (`PTS`), rebounds, assists, and sho
 
 We’ll focus on points scored, but you could adapt this to shooting %, assists, etc.
 
+We could also include multiple different categories and assign them specific values to calculate how **Hot** a player is. We will not be doing this because I am somewhat lazy.
+
 The key idea is the **rolling average**:
 
 $$
@@ -100,7 +102,40 @@ window = 5
 
 # Player list
 player_list = []
+```
+### For Loop
 
+1. Player Filtering
+- Iterates through a dictionary of players and their IDs.  
+- For each player, retrieves their 2025–26 game log.  
+- Excludes players who:
+  - Have too few games played  
+  - Average fewer than 20 minutes per game  
+
+2. Performance Calculation
+- Computes each player’s **season average points per game**.  
+- Computes the **recent average points** over a defined window of games (e.g., last 5 games).  
+- Calculates a **Hotness Ratio**:  
+  \[
+  \text{Ratio} = \frac{\text{Recent Average}}{\text{Season Average}}
+  \]
+
+3. Status Assignment
+- If ratio > **1.05** → Player is **Hot**  
+- If ratio < **0.95** → Player is **Cold**  
+- Otherwise → Player is **Neutral**  
+
+4. Results Compilation
+- Stores results (Player name, Season Avg, Recent Avg, Ratio, Status) in a list.  
+- Converts the list into a Pandas DataFrame.  
+- Displays the first 15 players for review.  
+
+---
+
+**Summary:**  
+The code identifies active players with significant minutes, evaluates their recent scoring trends compared to their season average, and provides a quick snapshot of which players are currently **overperforming, underperforming, or consistent**. 
+
+```python
 # Shrink the dictionary to filter for all players that have 
 # over 20 minutes for the 2024-25 season
 for name, pid in player_dict.items():
@@ -196,7 +231,11 @@ plt.tight_layout()
 plt.show()
 ```
 
-## Step 6: Extend the Analysis
+## Conclusion
+
+By using a publicly available NBA stats API, this code demonstrates how to gather real game data, filter players by meaningful criteria, and analyze performance trends over time. The process shows how to combine Python with libraries like `pandas` to clean, calculate, and visualize player statistics. Through this project, you learned not only practiced working with APIs and data frames but also learned how to translate raw sports data into insights such as identifying players who are currently "Hot," "Cold," or "Neutral."
+
+## Extend the Analysis
 
 Want to go further? Here are some ideas:
 
