@@ -78,9 +78,9 @@ We’ll focus on points scored, but you could adapt this to shooting %, assists,
 
 The key idea is the **rolling average**:
 
-[
+$$
 MA_t = \frac{1}{k} \sum_{i=0}^{k-1} x_{t-i}
-]
+$$
 
 where ( k ) is the number of games in the window (we’ll use 5).
 
