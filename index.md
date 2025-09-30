@@ -3,9 +3,8 @@
 **Have you ever wondered which NBA players are truly “on fire” 🔥 and which ones are in a slump ❄️?**
 Fans argue about it every day, but we can settle it with data. In this tutorial, we’ll use Python and the [nba_api](https://github.com/swar/nba_api) library to compare *recent performance* against *season averages*. By the end, you’ll be able to generate your own hot-or-not charts for any player.
 
-```markdown
 ![Line chart showing LeBron James points vs. rolling average](lebron.jpg "Hot streak visualization")
-```
+
 
 ---
 
